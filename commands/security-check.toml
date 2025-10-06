@@ -1,0 +1,25 @@
+# コマンド: /security-check
+# 説明: プロジェクトの依存関係に対してセキュリティ監査を実行します。
+# 使い方: /security-check
+
+name = "security-check"
+description = "プロジェクトの依存関係に対してセキュリティ監査を実行します。"
+interactive = false
+
+[[steps]]
+  name = "NPM監査"
+  type = "shell"
+  command = "npm audit"
+  run_if = "file_exists package.json"
+
+[[steps]]
+  name = "Pipenvチェック"
+  type = "shell"
+  command = "pipenv check"
+  run_if = "file_exists Pipfile"
+
+[[steps]]
+  name = "Gemnasiumスキャン"
+  type = "shell"
+  command = "gemnasium-maven-plugin:scan"
+  run_if = "file_exists pom.xml"

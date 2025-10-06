@@ -1,0 +1,67 @@
+# コマンド: /lint-check
+# 説明: プロジェクトのリンターエラーをチェックし、自動修正可能なエラーを修正します。
+# 使い方: /lint-check
+
+name = "lint-check"
+description = "プロジェクトのリンターエラーをチェックし、自動修正可能なエラーを修正します。"
+interactive = false
+
+[[steps]]
+  name = "ESLintチェック（Node.js/TypeScript）"
+  type = "shell"
+  command = "npm run lint"
+  run_if = "file_exists package.json && (file_exists *.js || file_exists *.ts || file_exists *.tsx)"
+
+[[steps]]
+  name = "ESLint自動修正（Node.js/TypeScript）"
+  type = "shell"
+  command = "npm run lint:fix"
+  run_if = "file_exists package.json && (file_exists *.js || file_exists *.ts || file_exists *.tsx)"
+
+[[steps]]
+  name = "Prettierチェック（Node.js/TypeScript）"
+  type = "shell"
+  command = "npm run format:check"
+  run_if = "file_exists package.json && (file_exists *.js || file_exists *.ts || file_exists *.tsx)"
+
+[[steps]]
+  name = "Prettier自動修正（Node.js/TypeScript）"
+  type = "shell"
+  command = "npm run format:fix"
+  run_if = "file_exists package.json && (file_exists *.js || file_exists *.ts || file_exists *.tsx)"
+
+[[steps]]
+  name = "Flake8チェック（Python）"
+  type = "shell"
+  command = "flake8 ."
+  run_if = "file_exists requirements.txt && file_exists *.py"
+
+[[steps]]
+  name = "Black自動修正（Python）"
+  type = "shell"
+  command = "black ."
+  run_if = "file_exists requirements.txt && file_exists *.py"
+
+[[steps]]
+  name = "isort自動修正（Python）"
+  type = "shell"
+  command = "isort ."
+  run_if = "file_exists requirements.txt && file_exists *.py"
+
+[[steps]]
+  name = "Rustfmtチェック（Rust）"
+  type = "shell"
+  command = "cargo fmt --check"
+  run_if = "file_exists Cargo.toml && file_exists *.rs"
+
+[[steps]]
+  name = "Rustfmt自動修正（Rust）"
+  type = "shell"
+  command = "cargo fmt"
+  run_if = "file_exists Cargo.toml && file_exists *.rs"
+
+[[steps]]
+  name = "Clippyチェック（Rust）"
+  type = "shell"
+  command = "cargo clippy -- -D warnings"
+  run_if = "file_exists Cargo.toml && file_exists *.rs"

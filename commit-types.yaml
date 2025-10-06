@@ -1,0 +1,66 @@
+# コミットメッセージのtype定義
+# Conventional Commits仕様に準拠したtypeの一覧
+
+types:
+  # 新機能の追加
+  feat:
+    description: "新機能の追加"
+    example: "feat: ユーザー認証エンドポイントの追加"
+  
+  # バグ修正
+  fix:
+    description: "バグの修正"
+    example: "fix: ログイン時の認証エラーを修正"
+  
+  # ドキュメントの変更
+  docs:
+    description: "ドキュメントの変更"
+    example: "docs: API仕様書の更新"
+  
+  # コードスタイルの変更（フォーマット、セミコロンの追加など）
+  style:
+    description: "コードスタイルの変更"
+    example: "style: ESLintの警告を修正"
+  
+  # リファクタリング（機能追加やバグ修正ではないコードの変更）
+  refactor:
+    description: "リファクタリング"
+    example: "refactor: ユーザーサービスクラスの構造を改善"
+  
+  # テストの追加や修正
+  test:
+    description: "テストの追加や修正"
+    example: "test: ユーザー認証のユニットテストを追加"
+  
+  # ビルドシステムや外部依存関係の変更
+  chore:
+    description: "ビルドプロセスや補助ツールの変更"
+    example: "chore: webpackの設定を更新"
+  
+  # パフォーマンスの改善
+  perf:
+    description: "パフォーマンスの改善"
+    example: "perf: データベースクエリの最適化"
+  
+  # 既存機能の変更や削除
+  change:
+    description: "既存機能の変更や削除"
+    example: "change: ユーザー登録フォームのバリデーションルールを変更"
+  
+  # 破壊的変更
+  breaking:
+    description: "破壊的変更（BREAKING CHANGEを含む）"
+    example: "breaking: APIのレスポンス形式を変更"
+
+# 使用例
+examples:
+  - "feat: 新しいダッシュボード機能を追加"
+  - "fix: メモリリークの問題を修正"
+  - "docs: READMEにセットアップ手順を追加"
+  - "style: コードフォーマットを統一"
+  - "refactor: コンポーネントの構造を改善"
+  - "test: 統合テストのカバレッジを向上"
+  - "chore: 依存関係を最新版に更新"
+  - "perf: 画像読み込み速度を最適化"
+  - "change: デフォルト設定値を変更"
+  - "breaking: データベーススキーマを変更"

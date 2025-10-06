@@ -1,0 +1,30 @@
+# コマンド: /new-feature
+# 説明: 新しい機能ブランチを作成し、基本的なファイル構造をセットアップします。
+# 使い方: /new-feature <機能名>
+
+name = "new-feature"
+description = "新しい機能ブランチと定型ファイルを作成します。"
+interactive = false
+
+[[args]]
+  name = "feature_name"
+  description = "新しい機能の名前（例: 'user-profile'）。"
+  type = "string"
+  required = true
+
+[[steps]]
+  name = "ブランチ作成"
+  type = "shell"
+  command = "git checkout -b feature/{{args.feature_name}}"
+  run_if = "branch_not_exists feature/{{args.feature_name}}"
+
+[[steps]]
+  name = "ディレクトリ作成"
+  type = "shell"
+  command = "mkdir -p src/features/{{args.feature_name}}"
+
+[[steps]]
+  name = "初期ファイル作成"
+  type = "write_file"
+  path = "src/features/{{args.feature_name}}/index.js"
+  content = "// {{args.feature_name}} 機能のエントリーポイント。"
