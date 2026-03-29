@@ -11,7 +11,7 @@
 ## 概要
 
 このリポジトリは、Gemini CLI に読み込ませるための全社共通の開発ルールを管理します。
-各開発プロジェクトでは、このリポジトリをサブモジュールとして利用することを推奨します。
+各開発プロジェクトでは、このリポジトリをカスタムコマンドとして利用することを推奨します。
 
 ## 特徴
 
@@ -48,7 +48,27 @@
 git submodule add https://github.com/your-username/gemini-rules.git development-rules
 ```
 
-### 2. サブモジュールの更新
+### 2. カスタムコマンドのインストール
+
+サブモジュール追加後、以下のコマンドを実行してカスタムコマンドをプロジェクトの `.gemini/commands/` にインストールします。
+
+```bash
+./development-rules/install-commands.sh
+```
+
+これにより、`development-rules/commands/` 内の `.toml` ファイルへのシンボリックリンクが `<プロジェクトルート>/.gemini/commands/` に作成されます。
+シンボリックリンク方式のため、サブモジュールを更新するだけで自動的に最新のコマンドが反映されます。
+
+ファイルのコピーが必要な場合（CI環境など）は `--copy` オプションを使用してください。
+
+```bash
+./development-rules/install-commands.sh --copy
+```
+
+> **Note**: `.gemini/commands/` はプロジェクトの `.gitignore` に追加するか、コミットするかを検討してください。
+> シンボリックリンクを使用している場合は `.gitignore` への追加を推奨します。
+
+### 3. サブモジュールの更新
 
 プロジェクトをクローンした後や、このルールリポジトリが更新された際には、以下のコマンドでサブモジュールを最新の状態にしてください。
 
@@ -56,7 +76,10 @@ git submodule add https://github.com/your-username/gemini-rules.git development-
 git submodule update --init --recursive --remote
 ```
 
-### 3. バージョン管理
+シンボリックリンクでインストールしている場合、この操作だけで最新のコマンドが自動的に反映されます。
+コピーでインストールしている場合は、更新後に `install-commands.sh --copy` を再実行してください。
+
+### 4. バージョン管理
 
 バージョン管理の詳細については、[VERSION.md](./VERSION.md)を参照してください。
 
