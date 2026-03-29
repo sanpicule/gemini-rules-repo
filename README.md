@@ -56,6 +56,13 @@ git submodule add https://github.com/your-username/gemini-rules.git development-
 ./development-rules/install-commands.sh
 ```
 
+サブモジュール追加と同時に一度で済ませる場合は `&&` でつなげて実行できます。
+
+```bash
+git submodule add https://github.com/your-username/gemini-rules.git development-rules && \
+  ./development-rules/install-commands.sh
+```
+
 これにより、`development-rules/commands/` 内の `.toml` ファイルへのシンボリックリンクが `<プロジェクトルート>/.gemini/commands/` に作成されます。
 シンボリックリンク方式のため、サブモジュールを更新するだけで自動的に最新のコマンドが反映されます。
 
@@ -63,6 +70,15 @@ git submodule add https://github.com/your-username/gemini-rules.git development-
 
 ```bash
 ./development-rules/install-commands.sh --copy
+```
+
+#### git フックによる自動インストール（推奨）
+
+`--setup-hooks` オプションを付けると、`git pull` や `git submodule update` 後にコマンドが**自動でインストール**されるよう git フックを設定します。
+初回セットアップ時に一度だけ実行すれば、以降の更新は自動化されます。
+
+```bash
+./development-rules/install-commands.sh --setup-hooks
 ```
 
 > **Note**: `.gemini/commands/` はプロジェクトの `.gitignore` に追加するか、コミットするかを検討してください。

@@ -1,25 +1,30 @@
-# コマンド: /security-check
-# 説明: プロジェクトの依存関係に対してセキュリティ監査を実行します。
-# 使い方: /security-check
-
-name = "security-check"
 description = "プロジェクトの依存関係に対してセキュリティ監査を実行します。"
-interactive = false
 
-[[steps]]
-  name = "NPM監査"
-  type = "shell"
-  command = "npm audit"
-  run_if = "file_exists package.json"
+prompt = """
+現在のプロジェクトの依存関係に対してセキュリティ監査を実行してください。
 
-[[steps]]
-  name = "Pipenvチェック"
-  type = "shell"
-  command = "pipenv check"
-  run_if = "file_exists Pipfile"
+# 手順
 
-[[steps]]
-  name = "Gemnasiumスキャン"
-  type = "shell"
-  command = "gemnasium-maven-plugin:scan"
-  run_if = "file_exists pom.xml"
+1. プロジェクトで使用しているパッケージマネージャーを確認してください。
+   - `package.json` が存在する場合: npm / yarn プロジェクト
+   - `Pipfile` が存在する場合: Pipenv プロジェクト
+   - `requirements.txt` が存在する場合: pip プロジェクト
+   - `pom.xml` が存在する場合: Maven プロジェクト
+
+2. 対応するセキュリティ監査コマンドを実行してください。
+   - npm: `npm audit` を実行する
+   - yarn: `yarn audit` を実行する
+   - Pipenv: `pipenv check` を実行する
+   - pip: `pip-audit` を実行する（未インストールの場合は `pip install pip-audit` を提案する）
+   - Maven: `mvn dependency:analyze` を実行する
+
+3. 検出された脆弱性を以下の形式で日本語で報告してください。
+   - 脆弱性の深刻度（Critical / High / Medium / Low）
+   - 影響を受けるパッケージ名とバージョン
+   - 脆弱性の概要
+   - 推奨される修正方法（アップデートコマンドなど）
+
+4. 自動修正が可能な場合は修正コマンドを提案し、実行してよいか確認してください。
+   - npm: `npm audit fix`
+   - yarn: `yarn upgrade <package>`
+"""

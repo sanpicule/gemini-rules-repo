@@ -1,67 +1,26 @@
-# コマンド: /lint-check
-# 説明: プロジェクトのリンターエラーをチェックし、自動修正可能なエラーを修正します。
-# 使い方: /lint-check
-
-name = "lint-check"
 description = "プロジェクトのリンターエラーをチェックし、自動修正可能なエラーを修正します。"
-interactive = false
 
-[[steps]]
-  name = "ESLintチェック（Node.js/TypeScript）"
-  type = "shell"
-  command = "npm run lint"
-  run_if = "file_exists package.json && (file_exists *.js || file_exists *.ts || file_exists *.tsx)"
+prompt = """
+現在のプロジェクトに対して、以下の手順でリンターエラーのチェックと修正を行ってください。
 
-[[steps]]
-  name = "ESLint自動修正（Node.js/TypeScript）"
-  type = "shell"
-  command = "npm run lint:fix"
-  run_if = "file_exists package.json && (file_exists *.js || file_exists *.ts || file_exists *.tsx)"
+# 手順
 
-[[steps]]
-  name = "Prettierチェック（Node.js/TypeScript）"
-  type = "shell"
-  command = "npm run format:check"
-  run_if = "file_exists package.json && (file_exists *.js || file_exists *.ts || file_exists *.tsx)"
+1. プロジェクトで使用している言語・フレームワークを確認してください。
+   - `package.json` が存在する場合: Node.js / TypeScript プロジェクト
+   - `requirements.txt` または `Pipfile` が存在する場合: Python プロジェクト
+   - `Cargo.toml` が存在する場合: Rust プロジェクト
 
-[[steps]]
-  name = "Prettier自動修正（Node.js/TypeScript）"
-  type = "shell"
-  command = "npm run format:fix"
-  run_if = "file_exists package.json && (file_exists *.js || file_exists *.ts || file_exists *.tsx)"
+2. 対応するリンターを実行してエラーを確認してください。
+   - Node.js / TypeScript: `npm run lint` を実行し、エラーを確認する
+   - Python: `flake8 .` を実行し、エラーを確認する
+   - Rust: `cargo clippy -- -D warnings` を実行し、エラーを確認する
 
-[[steps]]
-  name = "Flake8チェック（Python）"
-  type = "shell"
-  command = "flake8 ."
-  run_if = "file_exists requirements.txt && file_exists *.py"
+3. 自動修正可能なエラーがあれば修正してください。
+   - Node.js / TypeScript: `npm run lint:fix` および `npm run format:fix` を実行する
+   - Python: `black .` および `isort .` を実行する
+   - Rust: `cargo fmt` を実行する
 
-[[steps]]
-  name = "Black自動修正（Python）"
-  type = "shell"
-  command = "black ."
-  run_if = "file_exists requirements.txt && file_exists *.py"
+4. 修正後に再度リンターを実行し、エラーが0件であることを確認してください。
 
-[[steps]]
-  name = "isort自動修正（Python）"
-  type = "shell"
-  command = "isort ."
-  run_if = "file_exists requirements.txt && file_exists *.py"
-
-[[steps]]
-  name = "Rustfmtチェック（Rust）"
-  type = "shell"
-  command = "cargo fmt --check"
-  run_if = "file_exists Cargo.toml && file_exists *.rs"
-
-[[steps]]
-  name = "Rustfmt自動修正（Rust）"
-  type = "shell"
-  command = "cargo fmt"
-  run_if = "file_exists Cargo.toml && file_exists *.rs"
-
-[[steps]]
-  name = "Clippyチェック（Rust）"
-  type = "shell"
-  command = "cargo clippy -- -D warnings"
-  run_if = "file_exists Cargo.toml && file_exists *.rs"
+5. 手動での修正が必要なエラーが残っている場合は、ファイル名・行番号・修正方法を日本語で報告してください。
+"""
